@@ -17,7 +17,7 @@ static void test_rot() {
   s.rot_S();
   // Up
   {
-    auto got = s.view(s.UP);
+    auto got = s.view_face(s.UP);
     decltype(got) expected{
         s.Blue,   s.Green, s.Orange, s.Orange, s.Orange,
         s.Yellow, s.Red,   s.Yellow, s.Green,
@@ -27,7 +27,7 @@ static void test_rot() {
 
   // Front
   {
-    auto got = s.view(s.FRONT);
+    auto got = s.view_face(s.FRONT);
     decltype(got) expected{
         s.Yellow, s.Orange, s.Orange, s.Blue,  s.Yellow,
         s.Red,    s.White,  s.Blue,   s.White,
@@ -36,7 +36,7 @@ static void test_rot() {
   }
   // Right
   {
-    auto got = s.view(s.RIGHT);
+    auto got = s.view_face(s.RIGHT);
     decltype(got) expected{
         s.Yellow, s.Blue, s.Blue,  s.Yellow, s.Green,
         s.White,  s.Blue, s.Green, s.White,
@@ -45,7 +45,7 @@ static void test_rot() {
   }
   // Back
   {
-    auto got = s.view(s.BACK);
+    auto got = s.view_face(s.BACK);
     decltype(got) expected{
         s.Yellow, s.Orange, s.Red, s.Green, s.White,
         s.White,  s.Green,  s.Red, s.White,
@@ -54,7 +54,7 @@ static void test_rot() {
   }
   // Left
   {
-    auto got = s.view(s.LEFT);
+    auto got = s.view_face(s.LEFT);
     decltype(got) expected{
         s.Yellow, s.Blue,   s.Green, s.Orange, s.Blue,
         s.White,  s.Orange, s.Green, s.Green,
@@ -63,7 +63,7 @@ static void test_rot() {
   }
   // Down
   {
-    auto got = s.view(s.DOWN);
+    auto got = s.view_face(s.DOWN);
     decltype(got) expected{
         s.Red, s.Red, s.Red, s.Red, s.Red, s.Yellow, s.Blue, s.White, s.Orange,
     };

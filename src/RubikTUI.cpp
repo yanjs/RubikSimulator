@@ -15,12 +15,12 @@ static void print_block(Color c) {
 }
 
 void RubikTUI::display(const RubikState &s) const {
-  auto up = s.view(RubikState::UP);
-  auto front = s.view(RubikState::FRONT);
-  auto right = s.view(RubikState::RIGHT);
-  auto back = s.view(RubikState::BACK);
-  auto left = s.view(RubikState::LEFT);
-  auto down = s.view(RubikState::DOWN);
+  auto up = s.view_face(RubikState::UP);
+  auto front = s.view_face(RubikState::FRONT);
+  auto right = s.view_face(RubikState::RIGHT);
+  auto back = s.view_face(RubikState::BACK);
+  auto left = s.view_face(RubikState::LEFT);
+  auto down = s.view_face(RubikState::DOWN);
   for (size_t i = 0; i < 9; i++) {
     print_block(up[i]);
     if (i % 3 == 2) {

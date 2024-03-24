@@ -1,6 +1,7 @@
 #ifndef RUBIKSTATE_H
 #define RUBIKSTATE_H
 
+#include "Permutation.hpp"
 #include <array>
 #include <cctype>
 #include <functional>
@@ -32,28 +33,13 @@ private:
   using Sz = std::size_t;
   using ValueType = Color;
   using FaceSquaresType = std::array<Face, 9>;
-  template <Sz size> struct Permutation {
-    std::array<ValueType, size> values;
-    // e.g. (1 2 4)
-    template <Sz... xs> constexpr void cycle() {
-      if constexpr (sizeof...(xs) <= 1) {
-        return;
-      }
-      Sz indices[]{xs...};
-      auto temp = values[indices[0]];
-      for (Sz i = 0; i < sizeof...(xs) - 1; i++) {
-        values[indices[i]] = values[indices[i + 1]];
-      }
-      values[indices[sizeof...(xs) - 1]] = temp;
-    }
-    constexpr ValueType operator[](Sz i) const { return values[i]; }
-  };
+
   constexpr static Sz CORNER_COUNT = 24;
-  Permutation<CORNER_COUNT> m_corners;
+  Permutation<Color, CORNER_COUNT> m_corners;
   constexpr static Sz EDGE_COUNT = 24;
-  Permutation<EDGE_COUNT> m_edges;
+  Permutation<Color, EDGE_COUNT> m_edges;
   constexpr static Sz CENTER_COUNT = 6;
-  Permutation<CENTER_COUNT> m_centers;
+  Permutation<Color, CENTER_COUNT> m_centers;
   /*
   Up: Yellow
   0 1
@@ -98,7 +84,7 @@ public:
             White, White, White, White,
         }}, m_centers{Yellow, Red, Green, Orange, Blue, White,} {}
 
-  constexpr std::array<ValueType, 9> view(Face f) const {
+  constexpr std::array<ValueType, 9> view_face(Face f) const {
     std::array<ValueType, 9> sqs;
     sqs[0] = m_corners[f * 4];
     sqs[1] = m_edges[f * 4];
@@ -110,6 +96,15 @@ public:
     sqs[7] = m_edges[f * 4 + 3];
     sqs[8] = m_corners[f * 4 + 3];
     return sqs;
+  }
+  constexpr auto edges() const {
+    return m_edges;
+  }
+  constexpr auto corners() const {
+    return m_corners;
+  }
+  constexpr auto centers() const {
+    return m_centers;
   }
 
   constexpr void rot_U() {
@@ -360,15 +355,7 @@ public:
 
   std::string to_string() const {
     std::stringstream ss;
-    for (auto c : m_edges.values) {
-      ss << c;
-    }
-    for (auto c : m_corners.values) {
-      ss << c;
-    }
-    for (auto c : m_centers.values) {
-      ss << c;
-    }
+    ss << m_edges.to_string() << m_corners.to_string() << m_centers.to_string();
     return ss.str();
   }
 };
